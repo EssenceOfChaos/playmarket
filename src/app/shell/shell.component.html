@@ -1,0 +1,57 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/stock-table" routerLinkActive="active" ariaCurrentWhenActive="page">Stock Table</a>
+      <a mat-list-item href="/">Home</a>
+      <a mat-list-item href="#">Link 2</a>
+      <a mat-list-item href="#">Link 3</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>PlayMarket</span>
+      <span class="example-spacer"></span>
+      <!-- Login button -->
+      <button *ngIf="(auth.isAuthenticated$ | async) === false" mat-icon-button  matTooltip="Log in" aria-label="login icon" (click)="loginWithRedirect()">
+        <mat-icon>login</mat-icon>
+      </button>
+        <!-- Logout button -->
+      <button *ngIf="auth.isAuthenticated$ | async" mat-icon-button  matTooltip="Log out" aria-label="logout icon" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </mat-toolbar>
+    <p>Is Authenticated: {{auth.isAuthenticated$ | async}}</p>
+    <div class="container mt-5" *ngIf="auth.user$ | async as user">
+      <div
+        class="row align-items-center profile-header mb-5 text-center text-md-left"
+      >
+        <div class="col-md-2">
+          <img
+            [src]="user.picture"
+            class="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
+          />
+        </div>
+        <div class="col-md">
+          <h2>{{ user.name }}</h2>
+          <p class="lead text-muted">{{ user.email }}</p>
+        </div>
+      </div>
+    
+
+    </div>
+    <!-- Routed components -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
